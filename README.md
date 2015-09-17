@@ -25,9 +25,11 @@
 #Example
 
 expresspp::server server;
+
 server.use([](expresspp::request & req, expresspp::response & res){
 	res<<(std::string("hello:"));
 });
+
 server.route("/hello", [](expresspp::request & req, expresspp::response & res){
 	res.end(std::string("world"));
 });
