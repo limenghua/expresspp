@@ -30,6 +30,6 @@
 *.app
 
 # Generated
-.suo
+*.suo
 Debug/*
 */Debug/*
