@@ -16,11 +16,11 @@ int main() {
         // Set logging settings
 
 		server.use([](expresspp::request & req, expresspp::response & res){
-			res<<(std::string("hello world hellos:"));
+			res<<(std::string("hello"));
 		});
 
 		server.route("/hello", [](expresspp::request & req, expresspp::response & res){
-			res.end(std::string("hello world hello world"));
+			res.end(std::string("world"));
 		});
 
         // Listen on port 9002

@@ -5,7 +5,8 @@
 #include <websocketpp/server.hpp>
 #include <expresspp/router.hpp>
 #include <list>
-
+#include <unordered_map>
+#include <boost/any.hpp>
 namespace expresspp
 {
 	typedef websocketpp::server<websocketpp::config::asio> server_type;
@@ -16,7 +17,7 @@ namespace expresspp
 		{
 		}
 
-		server & listen(unsigned short port){
+		server & listen(unsigned short port){  
 			m_server.init_asio();
 
 			m_server.set_open_handler(bind(&server::on_open, this, std::placeholders::_1));
@@ -60,10 +61,25 @@ namespace expresspp
 			return *this;
 		}
 
-		server & set()
+		template<class T>
+		void set(const std::string &key,const T & value)
 		{
-			return *this;
+			m_settings.emplace(key, value);
 		}
+
+
+		template<class T>
+		T get(const std::string &key)
+		{
+			auto it = m_settings.find(key);
+			if (it == m_settings.end())
+			{
+				throw std::runtime_error("No such key.");
+			}
+
+			return boost::any_cast<T>(it->second);
+		}
+
 
 		server_type & websocketpp()
 		{
@@ -117,9 +133,12 @@ namespace expresspp
 	private:
 		server_type m_server;
 		router m_router;
+
 		std::list<handle_function> m_before;
 		std::list<handle_function> m_after;
 		std::list<handle_function> m_handlers;
+
+		std::unordered_map<std::string, boost::any> m_settings;
 	};
 
 }

@@ -19,7 +19,6 @@ namespace expresspp{
 			handle_functions.emplace(path, fun);
 		}
 
-
 		void dispatch(request & req, response & res){
 			std::string path = req.get_uri();
 			typedef handle_container::iterator iterator;
