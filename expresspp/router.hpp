@@ -19,6 +19,10 @@ namespace expresspp{
 			handle_functions.emplace(path, fun);
 		}
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> fc29232c1fd0cc80f0fc7821e01b8e32f909f07b
 		void dispatch(request & req, response & res){
 			std::string path = req.get_path();
 			typedef handle_container::iterator iterator;

@@ -5,8 +5,12 @@
 #include <websocketpp/server.hpp>
 #include <expresspp/router.hpp>
 #include <list>
+<<<<<<< HEAD
 #include <unordered_map>
 #include <boost/any.hpp>
+=======
+
+>>>>>>> fc29232c1fd0cc80f0fc7821e01b8e32f909f07b
 namespace expresspp
 {
 	typedef websocketpp::server<websocketpp::config::asio> server_type;
@@ -17,7 +21,11 @@ namespace expresspp
 		{
 		}
 
+<<<<<<< HEAD
 		server & listen(unsigned short port){  
+=======
+		server & listen(unsigned short port){
+>>>>>>> fc29232c1fd0cc80f0fc7821e01b8e32f909f07b
 			m_server.init_asio();
 
 			m_server.set_open_handler(bind(&server::on_open, this, std::placeholders::_1));
@@ -61,6 +69,7 @@ namespace expresspp
 			return *this;
 		}
 
+<<<<<<< HEAD
 		template<class T>
 		void set(const std::string &key,const T & value)
 		{
@@ -81,6 +90,13 @@ namespace expresspp
 		}
 
 
+=======
+		server & set()
+		{
+			return *this;
+		}
+
+>>>>>>> fc29232c1fd0cc80f0fc7821e01b8e32f909f07b
 		server_type & websocketpp()
 		{
 			return m_server;
@@ -144,12 +160,18 @@ namespace expresspp
 	private:
 		server_type m_server;
 		router m_router;
+<<<<<<< HEAD
 
 		std::list<handle_function> m_before;
 		std::list<handle_function> m_after;
 		std::list<handle_function> m_handlers;
 
 		std::unordered_map<std::string, boost::any> m_settings;
+=======
+		std::list<handle_function> m_before;
+		std::list<handle_function> m_after;
+		std::list<handle_function> m_handlers;
+>>>>>>> fc29232c1fd0cc80f0fc7821e01b8e32f909f07b
 	};
 
 }
