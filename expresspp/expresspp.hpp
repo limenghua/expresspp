@@ -25,7 +25,7 @@ namespace expresspp
 			m_server.set_message_handler(bind(&server::on_message, this, std::placeholders::_1, std::placeholders::_2));
 			m_server.set_http_handler(bind(&server::on_http, this, std::placeholders::_1));
 
-			use(bind(&router::dispatch, &m_router, std::placeholders::_1, std::placeholders::_2));
+			//use(bind(&router::dispatch, &m_router, std::placeholders::_1, std::placeholders::_2));
 
 			m_server.listen(port);
 			m_server.start_accept();
@@ -69,7 +69,7 @@ namespace expresspp
 
 
 		template<class T>
-		T get(const std::string &key)
+		T& get(const std::string &key)
 		{
 			auto it = m_settings.find(key);
 			if (it == m_settings.end())
@@ -77,7 +77,7 @@ namespace expresspp
 				throw std::runtime_error("No such key.");
 			}
 
-			return boost::any_cast<T>(it->second);
+			return boost::any_cast<T&>(it->second);
 		}
 
 
@@ -99,6 +99,13 @@ namespace expresspp
 		void on_message(websocketpp::connection_hdl hdl, server_type::message_ptr msg) {
 
 		}
+		/*
+		 * 收到http请求依照如下次序处理：
+		 * 1. 调用所有before 处理器
+		 * 2. 调用用户通过use注册处理器
+		 * 3. 调用router.dipatch分发请求
+		 * 4. 调用所有after 处理器
+		*/
 		void on_http(websocketpp::connection_hdl hdl)
 		{
 			server_type::connection_ptr con = m_server.get_con_from_hdl(hdl);
@@ -106,19 +113,23 @@ namespace expresspp
 			request	req = con->get_request();
 			response res;
 
-			for (auto it = m_before.begin(); it != m_before.end(); it++){
-				(*it)(req, res);
+			for (auto fun : m_before){
+				fun(req, res);
 			}
 
-			for (auto it = m_handlers.begin(); it != m_handlers.end(); it++){
-				(*it)(req, res);
+			for (auto fun : m_handlers){
+				fun(req, res);
 				if (res.is_done()){
 					break;
 				}
 			}
 
-			for (auto it = m_after.begin(); it != m_after.end(); it++){
-				(*it)(req, res);
+			if (!res.is_done()){
+				m_router.dispatch(req, res);
+			}
+
+			for (auto fun : m_after){
+				fun(req, res);
 			}
 
 			if (!res.is_done()){

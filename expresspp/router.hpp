@@ -20,7 +20,7 @@ namespace expresspp{
 		}
 
 		void dispatch(request & req, response & res){
-			std::string path = req.get_uri();
+			std::string path = req.get_path();
 			typedef handle_container::iterator iterator;
 			std::pair<iterator, iterator> result = handle_functions.equal_range(path);
 			for (auto it = result.first; it != result.second; it++)
