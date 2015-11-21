@@ -34,14 +34,14 @@ namespace expresspp
 		}
 
 		template<class T>
-		void set(const std::string &key, const T & value)
+		void set(const std::string &key, T && value)
 		{
-			m_settings.emplace(key, value);
+			m_settings.emplace(key, std::forward<T>(value));
 		}
 
-
+		
 		template<class T>
-		T& get(const std::string &key)
+		T get(const std::string &key)
 		{
 			auto it = m_settings.find(key);
 			if (it == m_settings.end())
@@ -49,7 +49,7 @@ namespace expresspp
 				throw std::exception("No such key.");
 			}
 
-			return boost::any_cast<T&>(it->second);
+			return boost::any_cast<T>(it->second);
 		}
 
 		bool has(const std::string & key){
@@ -63,4 +63,4 @@ namespace expresspp
 
 
 
-#endif //EXPRESSPP_REQUEST_HPP
+#endif //EXPRESSPP_REQUEST_HPP    

@@ -7,19 +7,14 @@ using namespace expresspp;
 
 TEST(expresspp, expresspp)
 {
-<<<<<<< HEAD
 	server app;
-=======
-	server app = server();
->>>>>>> fc29232c1fd0cc80f0fc7821e01b8e32f909f07b
 }
 
 TEST(expresspp, listen)
 {
-<<<<<<< HEAD
-	server app;
-	
+	server app;	
 	server & ret = app.listen(8000);
+
 	ASSERT_EQ(&app, &ret);
 }
 
@@ -59,10 +54,5 @@ TEST(expresspp, set_get)
 
 	EXPECT_ANY_THROW(app.get<std::string>("int_value1"));
 	EXPECT_ANY_THROW(app.get<int>("other_value"));
-=======
-	server app = server();
-	
-	server & ret = app.listen(8000);
-	ASSERT_EQ(&app, &ret);
->>>>>>> fc29232c1fd0cc80f0fc7821e01b8e32f909f07b
+
 }
