@@ -1,0 +1,27 @@
+/out/
+core
+tags
+*.o
+test
+test_g
+test_fast
+bench
+url_parser
+parsertrace
+parsertrace_g
+*.mk
+*.Makefile
+*.so.*
+*.a
+
+
+# Visual Studio uglies
+*.suo
+*.sln
+*.vcxproj.filters
+*.vcxproj.user
+*.opensdf
+*.ncrunchsolution*
+*.sdf
+*.vsp
+*.psess
